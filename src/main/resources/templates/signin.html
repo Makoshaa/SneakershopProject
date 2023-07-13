@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход в аккаунт</title>
+</head>
+<div layout:fragment="content">
+    <div class="row mx-auto" style="padding-left: 250px; padding-top: 50px">
+        <div class="col-6 mx-auto">
+            <form method="post" th:action="@{'/to-enter'}">
+                <div class="p-3 py-5">
+                    <h4 class="text-right" style="padding-left: 75px; font-size: 30px">Авторизация</h4>
+                </div>
+                <div class="alert alert-danger alert-dismissible fade show w-50" role="alert"
+                     th:if="${param.autherror!=null}">
+                    Неправильный email или пароль!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div class="mb-3 w-50">
+                    <label class="form-label">Электронная почта</label>
+                    <input type="email" name="user_email" class="form-control" id="exampleInputEmail1">
+                </div>
+                <div class="mb-3 w-50">
+                    <label class="form-label">Пароль</label>
+                    <input type="password" name="user_password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-outline-dark">Войти</button>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

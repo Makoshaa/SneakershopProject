@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout.html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить товар</title>
+</head>
+]
+<div layout:fragment="content">
+    <div class="col-6 mx-auto justify-content-center" style="padding-top: 50px; padding-left: 250px">
+        <div id="alertContainer"></div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <label>Название товара : </label>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12">
+                <input type="text" class="form-control w-50" id="name">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <label>Цвет : </label>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12">
+                <input type="text" class="form-control w-50" id="color">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <label>Цена : </label>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12">
+                <input type="number" class="form-control w-50" id="price">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <button class="btn btn-outline-success" onclick="addSneakers()">Добавить товар</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addSneakers() {
+            const httpRequest = new XMLHttpRequest();
+            httpRequest.open("POST", "/sneakers", true);
+            httpRequest.setRequestHeader("Content-Type", "application/json");
+
+            let sneakersName = document.getElementById("name");
+            let color = document.getElementById("color");
+            let price = document.getElementById("price");
+
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+                    sneakersName.value = "";
+                    color.value = "";
+                    price.value = "";
+                    showSuccessAlert("Товар успешно добавлен!")
+                    loadSneakers();
+                }
+            };
+            let body = {
+                'name': sneakersName.value,
+                'color' : color.value,
+                'price' : price.value
+            };
+            body = JSON.stringify(body);
+            httpRequest.send(body);
+        }
+        function showSuccessAlert(message) {
+            let alertContainer = document.getElementById("alertContainer");
+
+            let alertDiv = document.createElement("div");
+            alertDiv.className = "alert alert-success";
+            alertDiv.innerHTML = message;
+            alertContainer.innerHTML = ""; // Очищаем контейнер от предыдущих алертов
+            alertContainer.appendChild(alertDiv);
+        }
+
+    </script>
+</div>
+
+</html>

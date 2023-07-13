@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Панель управления</title>
+</head>
+    <div layout:fragment="content">
+        <h1 class="text-center mt-3">Список пользователей</h1>
+        <div class="container mt-3" style="padding-top: 15px">
+            <div class="row mt-3">
+                    <table class="table">
+                        <thead class="table-light">
+                        <tr>
+                            <th>Имя</th>
+                            <th>Роль</th>
+                            <th>Электронная почта</th>
+                            <th>Детали</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${adamdar}">
+                            <input type="hidden" name="user_id" th:value="${user.getId()}">
+                            <td th:text="${user.fullName}"></td>
+                            <td th:each="authority : ${user.getAuthorities()}"
+                                th:text="${authority.getAuthority().replace('[', '').
+                                replace(']', '').replaceFirst('^ROLE_', '')}"></td>
+                            <td th:text="${user.getEmail()}"></td>
+                            <td> <form th:action="@{/admin-panel/user-details}" method="get">
+                                <input type="hidden" name="userId" th:value="${user.id}">
+                                <button type="submit" class="btn btn-outline-primary">Подробнее</button>
+                            </form></td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+
+    </div>
+</html>
